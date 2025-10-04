@@ -3,7 +3,7 @@
  * Plugin Name: SecureWP Pro
  * Plugin URI: 
  * Description: A comprehensive security plugin for WordPress that protects against various attacks and vulnerabilities.
- * Version: 2.1.3
+ * Version: 3.0.0
  * Author: Tanveer Malik
  * Author URI: 
  * License: GPL v2 or later
