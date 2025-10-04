@@ -1,0 +1,68 @@
+BASE_URL: https://your-site.example
+CRON_SECRET_KEY: <paste from Admin → SecureWP Pro → Settings → Advanced>
+
+== WP-CRON SECURITY ==
+BASE_URL/wp-cron.php                    # unauthorized → 403
+BASE_URL/wp-cron.php?secret=CRON_SECRET_KEY   # requires ALTERNATE_WP_CRON → 200
+BASE_URL/wp-cron.php?secret=WRONG_KEY   # invalid secret → 403
+curl -i -H "X-SecureWP-Cron: CRON_SECRET_KEY" "BASE_URL/wp-cron.php"   # header auth → 200
+(Rate limit: >10 req/min from same IP → 429 Too Many Requests)
+(Authorized IPs allowlist via Settings → Advanced → Authorized Cron IPs)
+
+== XML-RPC PROTECTION ==
+BASE_URL/xmlrpc.php                     # with complete block → 403 (GET/POST)
+curl -i -X POST -H "Content-Type: text/xml" \
+  --data '<methodCall><methodName>system.multicall</methodName><params></params></methodCall>' \
+  "BASE_URL/xmlrpc.php"                # suspicious → 429
+curl -i -X POST -H "Content-Type: text/xml" \
+  --data '<methodCall><methodName>pingback.ping</methodName><params></params></methodCall>' \
+  "BASE_URL/xmlrpc.php"                # pingback blocked → 429/403
+(Rate limit: >10 req/min → 429; Flood: >20/5min → subsequent 403)
+
+== REST API HARDENING (USERS) ==
+BASE_URL/wp-json/wp/v2/users            # unauthenticated → 401/403
+(Admin auth allowed; non-admins see redacted fields)
+
+== LOGIN RATE LIMITING ==
+BASE_URL/wp-login.php                   # repeated failed logins → lockout error
+
+== PASSWORD RESET RATE LIMITING ==
+BASE_URL/wp-login.php?action=lostpassword   # repeated requests → reset blocked
+
+== GENERAL RATE LIMITING ==
+BASE_URL/wp-login.php?action=register   # repeated registrations → rate limit error
+<CF7_FORM_PAGE_URL>                     # repeated submissions → 403
+<FLUENT_FORM_PAGE_URL>                  # repeated submissions → validation error shown; blocked
+
+== ADMIN DASHBOARD ==
+BASE_URL/wp-admin/admin.php?page=securewp-pro
+BASE_URL/wp-admin/admin.php?page=securewp-pro&tab=overview
+BASE_URL/wp-admin/admin.php?page=securewp-pro&tab=settings
+BASE_URL/wp-admin/admin.php?page=securewp-pro&tab=lockouts
+BASE_URL/wp-admin/admin.php?page=securewp-pro&tab=logs
+BASE_URL/wp-admin/admin.php?page=securewp-pro&tab=statistics
+BASE_URL/wp-admin/admin.php?page=securewp-pro-lockouts
+BASE_URL/wp-admin/admin.php?page=securewp-pro-logs
+
+== ADMIN ACTIONS (NONCE-PROTECTED) ==
+BASE_URL/wp-admin/admin-post.php?action=securewp_pro_clean_old_logs
+BASE_URL/wp-admin/admin-post.php?action=securewp_pro_reset_settings
+POST BASE_URL/wp-admin/admin-ajax.php?action=securewp_pro_generate_cron_key
+
+== EMAIL NOTIFICATIONS (SUBJECTS) ==
+[SecureWP Pro] XML-RPC Access Blocked
+[SecureWP Pro] Cron Access Blocked
+SecureWP Pro: Lockout triggered for IP <IP>
+SecureWP Pro: Permanent lockout triggered for IP <IP>
+
+== STEP-BY-STEP CHECKLIST ==
+[ ] xmlrpc.php 403 (complete block)
+[ ] xmlrpc suspicious methods → 429
+[ ] xmlrpc rate limit → 429; flood → 403
+[ ] REST users blocked unauth; admin allowed; non-admin redacted
+[ ] Login failures lead to lockout; success clears lockout
+[ ] Password reset rate-limited
+[ ] Registration rate-limited; CF7 blocked on rapid submissions; Fluent Forms blocked via validation error
+[ ] Cron unauthorized → 403
+[ ] Cron header auth works; ?secret works with ALTERNATE_WP_CRON; wrong key blocked
+[ ] Admin tabs reachable; Logs show events; Notifications received if enabled

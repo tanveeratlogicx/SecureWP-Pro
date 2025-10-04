@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Unsaved Changes Detection</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .nav-tab {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-right: 5px;
+            background: #f1f1f1;
+            border: 1px solid #ccd0d4;
+            text-decoration: none;
+            color: #555;
+            position: relative;
+        }
+        .nav-tab-active {
+            background: #fff;
+            border-bottom: 1px solid #fff;
+        }
+        .nav-tab.has-unsaved-changes::after {
+            content: '●';
+            color: #dc3232;
+            font-size: 16px;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .form-changed-notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 10px 15px;
+            margin: 10px 0 20px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        .form-changed-notice.show {
+            display: block;
+        }
+        .tab-content {
+            background: #fff;
+            border: 1px solid #ccd0d4;
+            padding: 20px;
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Unsaved Changes Detection</h1>
+    
+    <nav>
+        <a href="#tab1" class="nav-tab nav-tab-active">Settings Tab</a>
+        <a href="#tab2" class="nav-tab">Other Tab</a>
+    </nav>
+
+    <div class="tab-content">
+        <form>
+            <h3>Test Form</h3>
+            <p><label>Text Input: <input type="text" name="test_text" value="" /></label></p>
+            <p><label>Checkbox: <input type="checkbox" name="test_checkbox" /></label></p>
+            <p><label>Select: <select name="test_select"><option value="1">Option 1</option><option value="2">Option 2</option></select></label></p>
+            <p><input type="submit" value="Save Changes" class="button" /></p>
+        </form>
+    </div>
+
+    <p><strong>Instructions:</strong></p>
+    <ol>
+        <li>Make changes to any form field above</li>
+        <li>Try clicking the "Other Tab" link</li>
+        <li>You should see a confirmation dialog asking to save changes</li>
+        <li>The active tab should show a red pulsing dot when there are unsaved changes</li>
+    </ol>
+
+    <script>
+jQuery(document).ready(function($) {
+    var formChanged = false;
+    var originalFormData = {};
+    
+    function serializeFormData($form) {
+        var data = {};
+        $form.find(':input').each(function() {
+            var $input = $(this);
+            var name = $input.attr('name');
+            if (name) {
+                if ($input.is(':checkbox') || $input.is(':radio')) {
+                    data[name] = $input.is(':checked');
+                } else {
+                    data[name] = $input.val();
+                }
+            }
+        });
+        return JSON.stringify(data);
+    }
+    
+    function setupFormChangeDetection() {
+        var $forms = $('form');
+        
+        $forms.each(function() {
+            var $form = $(this);
+            var formId = 'test-form';
+            
+            originalFormData[formId] = serializeFormData($form);
+            
+            $form.find(':input').on('change input keyup', function() {
+                var currentData = serializeFormData($form);
+                var hasChanges = (currentData !== originalFormData[formId]);
+                
+                if (hasChanges !== formChanged) {
+                    formChanged = hasChanges;
+                    updateUnsavedChangesIndicator();
+                }
+            });
+        });
+    }
+    
+    function updateUnsavedChangesIndicator() {
+        var $activeTab = $('.nav-tab-active');
+        var $notice = $('.form-changed-notice');
+        
+        if (formChanged) {
+            $activeTab.addClass('has-unsaved-changes');
+            
+            if ($notice.length === 0) {
+                $notice = $('<div class="form-changed-notice">You have unsaved changes on this page.</div>');
+                $('.tab-content').prepend($notice);
+            }
+            $notice.addClass('show');
+        } else {
+            $('.nav-tab').removeClass('has-unsaved-changes');
+            $notice.removeClass('show');
+        }
+    }
+    
+    function resetFormChangedFlag() {
+        formChanged = false;
+        $('form').each(function() {
+            var $form = $(this);
+            originalFormData['test-form'] = serializeFormData($form);
+        });
+        updateUnsavedChangesIndicator();
+    }
+    
+    $('.nav-tab').on('click', function(e) {
+        if (formChanged) {
+            var userConfirmed = confirm('You have unsaved changes. Do you want to save them before switching tabs?\n\nClick "OK" to save changes, or "Cancel" to discard changes and continue.');
+            
+            if (userConfirmed) {
+                e.preventDefault();
+                var $form = $('form').first();
+                if ($form.length) {
+                    alert('In a real WordPress environment, this would save the form and then navigate to the tab.');
+                    resetFormChangedFlag();
+                    return false;
+                }
+            } else {
+                resetFormChangedFlag();
+            }
+        }
+        
+        e.preventDefault();
+        $('.nav-tab').removeClass('nav-tab-active');
+        $(this).addClass('nav-tab-active');
+        updateUnsavedChangesIndicator();
+    });
+    
+    $('form').on('submit', function(e) {
+        e.preventDefault();
+        alert('Form submitted! In WordPress, this would save the settings.');
+        resetFormChangedFlag();
+    });
+    
+    setupFormChangeDetection();
+    
+    $(window).on('beforeunload', function(e) {
+        if (formChanged) {
+            var message = 'You have unsaved changes. Are you sure you want to leave this page?';
+            e.returnValue = message;
+            return message;
+        }
+    });
+});
+    </script>
+</body>
+</html>

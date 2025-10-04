@@ -1,0 +1,584 @@
+.securewp-pro-settings {
+    max-width: 800px;
+}
+
+.securewp-pro-settings .form-table th {
+    width: 200px;
+}
+
+.securewp-pro-settings .description {
+    font-style: italic;
+    color: #666;
+}
+
+.securewp-pro-log-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.securewp-pro-log-table th,
+.securewp-pro-log-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.securewp-pro-log-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+/* Evidence URLs: compact UI under feature toggles */
+.swp-evidence {
+    margin-top: 6px; /* reduced top margin */
+    background: #f8f9fa;
+    border-left: 3px solid #2271b1; /* WordPress blue */
+    border-radius: 3px;
+    padding: 6px 10px;
+    display: none; /* Hide by default, will be shown via JS when feature is enabled */
+}
+.swp-evidence.swp-loading {
+    opacity: 0.7;
+}
+.swp-evidence .swp-evidence-list {
+    margin: 4px 0 0 0;
+    padding-left: 18px;
+    font-size: 12.5px;
+}
+.swp-evidence .swp-evidence-inline {
+    margin-top: 4px;
+    color: #555;
+}
+
+/* Top Save Button Area Styling - simplified */
+.securewp-top-save-area {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border-left: 4px solid #0073aa;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.securewp-save-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.securewp-save-wrapper .button-primary {
+    margin: 0;
+    padding: 8px 20px;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Cancel Button Styling */
+.securewp-cancel-button {
+    background: #f6f7f7 !important;
+    border-color: #dcdcde !important;
+    color: #2c3338 !important;
+    padding: 8px 16px;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.securewp-cancel-button:hover {
+    background: #f0f0f1 !important;
+    border-color: #c3c4c7 !important;
+    color: #1d2327 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.securewp-cancel-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.securewp-cancel-button.button-disabled {
+    background: #00a32a !important;
+    border-color: #00a32a !important;
+    color: #fff !important;
+    cursor: default;
+    opacity: 0.8;
+}
+
+.securewp-save-description {
+    color: #666;
+    font-style: italic;
+    font-size: 14px;
+    margin: 0;
+}
+
+
+
+@media (max-width: 600px) {
+    .securewp-save-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .securewp-save-description {
+        font-size: 13px;
+    }
+    
+    .securewp-cancel-button {
+        margin-top: 5px;
+        width: 100%;
+    }
+}
+
+/* Bottom submit area styling */
+.submit .securewp-cancel-button {
+    margin-left: 10px;
+    vertical-align: top;
+}
+
+/* Unsaved Changes Indicator */
+.settings-nav-tab .unsaved-indicator {
+    color: #d63638;
+    font-size: 16px;
+    margin-left: 5px;
+    animation: pulse 1.5s infinite;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.settings-nav-tab.active .unsaved-indicator {
+    color: #fff;
+}
+
+/* Enhanced Unsaved Changes Notice */
+#securewp-unsaved-notice {
+    border-left: 4px solid #d63638 !important;
+    background-color: #fef7f7 !important;
+    box-shadow: 0 2px 5px rgba(214, 54, 56, 0.1);
+    position: relative;
+}
+
+#securewp-unsaved-notice::before {
+    content: "⚠️";
+    font-size: 18px;
+    margin-right: 8px;
+    float: left;
+}
+
+#securewp-unsaved-notice p {
+    color: #8a2424 !important;
+    font-weight: 600;
+    margin-left: 30px;
+}
+
+#securewp-unsaved-notice strong {
+    color: #d63638;
+    font-size: 16px;
+}
+
+/* Unsaved Changes Dialog */
+.swp-unsaved-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.swp-dialog-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: swp-fade-in 0.2s ease;
+}
+
+.swp-dialog-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: swp-scale-in 0.2s ease;
+}
+
+.swp-dialog-header {
+    padding: 20px 20px 0;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.swp-dialog-header h3 {
+    margin: 0 0 15px;
+    color: #d63638;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.swp-dialog-header .dashicons {
+    font-size: 20px;
+    color: #d63638;
+}
+
+.swp-dialog-body {
+    padding: 20px;
+}
+
+.swp-dialog-body p {
+    margin: 0 0 15px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.swp-dialog-body strong {
+    color: #d63638;
+}
+
+.swp-modified-fields-preview {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.swp-modified-fields-preview h4 {
+    margin: 0 0 10px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.swp-modified-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.swp-modified-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #e1e5e9;
+    font-size: 13px;
+    color: #666;
+}
+
+.swp-modified-list li:last-child {
+    border-bottom: none;
+}
+
+.swp-modified-list li strong {
+    color: #d63638;
+    font-weight: 600;
+}
+
+.swp-dialog-actions {
+    padding: 0 20px 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.swp-dialog-actions .button {
+    min-width: 100px;
+    text-align: center;
+}
+
+.swp-save-and-continue {
+    background: #00a32a !important;
+    border-color: #00a32a !important;
+    color: #fff !important;
+}
+
+.swp-save-and-continue:hover {
+    background: #008a00 !important;
+    border-color: #008a00 !important;
+}
+
+.swp-discard-and-continue {
+    background: #d63638 !important;
+    border-color: #d63638 !important;
+    color: #fff !important;
+}
+
+.swp-discard-and-continue:hover {
+    background: #b32d2e !important;
+    border-color: #b32d2e !important;
+}
+
+.swp-stay-here {
+    background: #f6f7f7 !important;
+    border-color: #dcdcde !important;
+    color: #2c3338 !important;
+}
+
+.swp-stay-here:hover {
+    background: #f0f0f1 !important;
+    border-color: #c3c4c7 !important;
+}
+
+/* Dialog Animations */
+@keyframes swp-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes swp-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Mobile Responsive Dialog */
+@media (max-width: 600px) {
+    .swp-dialog-content {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .swp-dialog-actions {
+        flex-direction: column;
+    }
+    
+    .swp-dialog-actions .button {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .swp-modified-fields-preview {
+        padding: 10px;
+    }
+    
+    .swp-modified-list {
+        max-height: 100px;
+    }
+}
+
+/* Enhanced tab styling for unsaved changes */
+.settings-nav-tab:has(.unsaved-indicator) {
+    border-left: 3px solid #d63638;
+}
+
+.settings-nav-tab.active:has(.unsaved-indicator) {
+    border-left-color: #fff;
+}
+
+/* Disabled navigation styling when form has changes */
+body.swp-has-unsaved-changes .nav-tab:not(.nav-tab-active) {
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+body.swp-has-unsaved-changes .nav-tab:not(.nav-tab-active):hover {
+    opacity: 0.8;
+}
+
+body.swp-has-unsaved-changes .nav-tab:not(.nav-tab-active)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(214, 54, 56, 0.1) 2px,
+        rgba(214, 54, 56, 0.1) 4px
+    );
+    pointer-events: none;
+}
+
+body.swp-has-unsaved-changes .settings-nav-tab:not(.active) {
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+body.swp-has-unsaved-changes .settings-nav-tab:not(.active):hover {
+    opacity: 0.8;
+}
+
+body.swp-has-unsaved-changes .settings-nav-tab:not(.active)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(214, 54, 56, 0.1) 2px,
+        rgba(214, 54, 56, 0.1) 4px
+    );
+    pointer-events: none;
+}
+
+/* Modified Input Field Styling */
+.form-table input.swp-field-modified,
+.form-table select.swp-field-modified,
+.form-table textarea.swp-field-modified {
+    border-color: #d63638 !important;
+    box-shadow: 0 0 0 1px #d63638;
+    background-color: #fff5f5;
+    transition: all 0.3s ease;
+}
+
+.form-table input.swp-field-modified:focus,
+.form-table select.swp-field-modified:focus,
+.form-table textarea.swp-field-modified:focus {
+    border-color: #d63638 !important;
+    box-shadow: 0 0 0 2px rgba(214, 54, 56, 0.2);
+    background-color: #fff;
+}
+
+/* Modified Checkbox/Radio Styling */
+input[type="checkbox"].swp-field-modified,
+input[type="radio"].swp-field-modified {
+    outline: 2px solid #d63638;
+    outline-offset: 2px;
+}
+
+/* Modified Field Label Enhancement */
+.form-table tr:has(.swp-field-modified) th label {
+    color: #d63638;
+    font-weight: 600;
+    position: relative;
+}
+
+.form-table tr:has(.swp-field-modified) th label::after {
+    content: " ●";
+    color: #d63638;
+    font-size: 16px;
+    margin-left: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+/* Fallback for browsers without :has() support */
+.form-table tr.swp-row-modified th label {
+    color: #d63638;
+    font-weight: 600;
+    position: relative;
+}
+
+.form-table tr.swp-row-modified th label::after {
+    content: " ●";
+    color: #d63638;
+    font-size: 16px;
+    margin-left: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+/* Modified Field Row Background */
+.form-table tr:has(.swp-field-modified) {
+    background-color: #fef7f7;
+    border-left: 4px solid #d63638;
+    transition: background-color 0.3s ease;
+}
+
+/* Fallback for browsers without :has() support */
+.form-table tr.swp-row-modified {
+    background-color: #fef7f7;
+    border-left: 4px solid #d63638;
+    transition: background-color 0.3s ease;
+}
+
+/* Modified Field Description Enhancement */
+.form-table tr:has(.swp-field-modified) .description {
+    color: #8a2424;
+    font-weight: 500;
+}
+
+/* Fallback for browsers without :has() support */
+.form-table tr.swp-row-modified .description {
+    color: #8a2424;
+    font-weight: 500;
+}
+
+/* Stats Info Display */
+.securewp-stats-info {
+    background: #f0f6fc;
+    border-left: 3px solid #0073aa;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.securewp-stats-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #2c3e50;
+}
+
+/* Reset styling when field is saved */
+.form-table input.swp-field-saved,
+.form-table select.swp-field-saved,
+.form-table textarea.swp-field-saved {
+    border-color: #00a32a !important;
+    box-shadow: 0 0 0 1px #00a32a;
+    background-color: #f0f9ff;
+    transition: all 0.3s ease;
+}
+
+.form-table tr:has(.swp-field-saved) {
+    background-color: #f0fdf4;
+    border-left: 4px solid #00a32a;
+    transition: background-color 0.3s ease;
+}
+
+.form-table tr:has(.swp-field-saved) th label {
+    color: #00a32a;
+}
+
+.form-table tr:has(.swp-field-saved) th label::after {
+    content: " ✓";
+    color: #00a32a;
+    animation: none;
+}
+
+/* Fallback for browsers without :has() support - saved state */
+.form-table tr.swp-row-saved {
+    background-color: #f0fdf4;
+    border-left: 4px solid #00a32a;
+    transition: background-color 0.3s ease;
+}
+
+.form-table tr.swp-row-saved th label {
+    color: #00a32a;
+}
+
+.form-table tr.swp-row-saved th label::after {
+    content: " ✓";
+    color: #00a32a;
+    animation: none;
+}
