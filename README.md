@@ -1,4 +1,4 @@
-# SecureWP Pro v2.0.0
+# SecureWP Pro v3.0.0
 
 🛡️ **Enterprise-Grade WordPress Security Plugin with Advanced Admin Experience**
 
@@ -57,7 +57,7 @@ A comprehensive WordPress security plugin that protects against 19+ vulnerabilit
 
 ---
 
-## 🆕 What's New in v2.0.0
+## 🆕 What's New in v3.0.0
 
 ### **🚫 Advanced Tab Switching Prevention**
 - ✅ **Intelligent Navigation Blocking** - Prevents accidental data loss during tab switching
@@ -326,5 +326,6 @@ GPL v2 or later. See [LICENSE](./LICENSE) file for details.
 **Requires**: WordPress 5.4+, PHP 7.4+
 
 ---
+
 
 *⚡ Transform your WordPress admin experience with SecureWP Pro v2.0.0!*
