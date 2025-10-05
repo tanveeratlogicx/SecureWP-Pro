@@ -5,7 +5,7 @@
  * Description: A comprehensive security plugin for WordPress that protects against various attacks and vulnerabilities.
  * Version: 3.0.0
  * Author: Tanveer Malik
- * Author URI: https://#
+ * Author URI: https://
  * License: GPL v2 or later
  * Text Domain: securewp-pro
  * 
